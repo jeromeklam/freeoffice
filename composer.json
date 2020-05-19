@@ -1,0 +1,28 @@
+{
+    "name"        : "jeromeklam/freeoffice",
+    "type"        : "library",
+    "description" : "PHPOffice integration",
+    "keywords"    : ["FREE", "PHPOFFICE", "PHP"],
+    "homepage"    : "http://github.com/jeromeklam",
+    "license"     : "gplv3",
+    "authors" : [
+        {
+            "name"  : "KLAM Jérôme",
+            "email" : "jeromeklam@free.fr"
+        }
+    ],
+    "require" : {
+        "php"                                  : ">=7.0",
+        "react/socket"                         : "*",
+        "guzzlehttp/guzzle"                    : "*",
+        "jeromeklam/freefw"                    : "*"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "FreeOffice\\" : "src/FreeOffice/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.4"
+    }
+}
