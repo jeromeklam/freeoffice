@@ -4,7 +4,7 @@
     "description" : "PHPOffice integration",
     "keywords"    : ["FREE", "PHPOFFICE", "PHP"],
     "homepage"    : "http://github.com/jeromeklam",
-    "license"     : "gplv3",
+    "license"     : "LGPL-3.0-only",
     "authors" : [
         {
             "name"  : "KLAM Jérôme",
