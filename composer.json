@@ -15,7 +15,10 @@
         "php"                                  : ">=7.0",
         "react/socket"                         : "*",
         "guzzlehttp/guzzle"                    : "*",
-        "jeromeklam/freefw"                    : "*"
+        "jeromeklam/freefw"                    : "*",
+        "phpoffice/phpword"                    : "^0.17.0",
+        "dompdf/dompdf"                        : "^0.8.5",
+        "tinybutstrong/opentbs"                : "^1.10"
     },
     "autoload" : {
         "psr-4" : {
