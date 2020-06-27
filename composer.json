@@ -17,8 +17,7 @@
         "guzzlehttp/guzzle"                    : "*",
         "jeromeklam/freefw"                    : "*",
         "phpoffice/phpword"                    : "^0.17.0",
-        "dompdf/dompdf"                        : "^0.8.5",
-        "tinybutstrong/opentbs"                : "^1.10"
+        "dompdf/dompdf"                        : "^0.8.5"
     },
     "autoload" : {
         "psr-4" : {

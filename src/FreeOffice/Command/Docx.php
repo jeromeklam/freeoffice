@@ -1,5 +1,7 @@
 <?php
 namespace FreeOffice\Command;
+include_once(__DIR__ . '/../../../vendor/tinybutstrong/tinybutstrong/tbs_class.php');
+include_once(__DIR__ . '/../../../vendor/tinybutstrong/opentbs/tbs_plugin_opentbs.php');
 
 /**
  * Docx commands
@@ -20,13 +22,18 @@ class Docx
         \FreeFW\Console\Output\AbstractOutput $p_output
     ) {
         $p_output->write("Docx test", true);
-        $tbs = new \clsTinyButStrong();
-        $tbs->LoadTemplate(APP_ROOT . '/datas/kalaweit/test.docx', OPENTBS_ALREADY_UTF8);
-        $tbs->Show('dummy');
-        file_put_contents('/var/www/html/jk.docx', $tbs->Source);
-        //$doc = new \FreeOffice\Docx();
-        //$doc->setFilename(APP_ROOT . '/datas/kalaweit/test.docx');
-        //$doc->exportToPdf();
+        $tbs = new \clsTinyButStrong; // new instance of TBS
+        $tbs->Plugin(TBS_INSTALL, OPENTBS_PLUGIN);
+        $tbs->LoadTemplate(APP_ROOT . '/datas/kalaweit/certificat.odp', \OPENTBS_ALREADY_UTF8);
+        $data = [
+            [
+                'rank' => 'CLIENT',
+                'fullname' => 'William'
+            ]
+        ];
+        $tbs->MergeBlock('client', $data);
+        $tbs->Show(\OPENTBS_STRING);
+        file_put_contents('/var/www/html/jk.odp', $tbs->Source);
         $p_output->write("Fin Docx", true);
     }
 }
