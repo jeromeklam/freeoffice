@@ -24,16 +24,23 @@ class Docx
         $p_output->write("Docx test", true);
         $tbs = new \clsTinyButStrong; // new instance of TBS
         $tbs->Plugin(TBS_INSTALL, OPENTBS_PLUGIN);
-        $tbs->LoadTemplate(APP_ROOT . '/datas/kalaweit/certificat.odp', \OPENTBS_ALREADY_UTF8);
+        $tbs->LoadTemplate(APP_ROOT . '/datas/FicheParrainageV3.odt', \OPENTBS_ALREADY_UTF8);
         $data = [
             [
-                'rank' => 'CLIENT',
-                'fullname' => 'William'
+                'rank' => 'CAUSE',
+                'cau_name' => 'William',
+                'cau_sex' => 'Femelle',
+                'cau_born' => '2010',
+                'cau_from' => '2015',
+                'cau_center' => 'Sumatra',
+                'cau_text' => 'dsfsd fsd fsdfs sd dks hkd hkdhfkdhsfkhskfhksd fhsfsq fdhksdfhk hsk',
+                'subspecies' => 'Gibbon',
+                'picture1' => APP_ROOT . '/datas/683788533-2048x2048.jpg'
             ]
         ];
-        $tbs->MergeBlock('client', $data);
+        $tbs->MergeBlock('cause', $data);
         $tbs->Show(\OPENTBS_STRING);
-        file_put_contents('/var/www/html/jk.odp', $tbs->Source);
+        file_put_contents('/var/www/html/jk.odt', $tbs->Source);
         $p_output->write("Fin Docx", true);
     }
 }
