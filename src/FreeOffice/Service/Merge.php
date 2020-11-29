@@ -8,7 +8,7 @@ require_once(__DIR__ . '/../../tinybutstrong/opentbs/tbs_plugin_opentbs.php');
  * @author jerome.klam
  *
  */
-class Merge()
+class Merge
 {
 
     /**
@@ -19,12 +19,20 @@ class Merge()
      */
     public function merge($p_src_filename, $p_dest_filename, \FreeFW\Model\MergeModel $p_merge_model)
     {
-        $tbs = new \clsTinyButStrong; // new instance of TBS
-        $tbs->Plugin(TBS_INSTALL, OPENTBS_PLUGIN);
-        $tbs->LoadTemplate($p_src_filename, \OPENTBS_ALREADY_UTF8);
-        $data = $p_merge_model->getDatasAsArray();
-        $tbs->MergeBlock($p_merge_model->getBlocksAsString(), $data);
-        $tbs->Show(\OPENTBS_STRING);
-        file_put_contents('/var/www/html/jk.odt', $tbs->Source);
+        ob_start();
+        $done = true;
+        try {
+            $tbs = new \clsTinyButStrong; // new instance of TBS
+            $tbs->Plugin(TBS_INSTALL, OPENTBS_PLUGIN);
+            $tbs->LoadTemplate($p_src_filename, \OPENTBS_ALREADY_UTF8);
+            $data = $p_merge_model->getDatasAsArray();
+            $tbs->MergeBlock($p_merge_model->getBlocksAsString(), $data);
+            $tbs->Show(\OPENTBS_STRING);
+            file_put_contents($p_dest_filename, $tbs->Source);
+        } catch (\Exception $ex) {
+            $done = false;
+        }
+        ob_end_clean();
+        return $done;
     }
 }
