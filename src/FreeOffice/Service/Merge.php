@@ -25,8 +25,13 @@ class Merge
             $tbs = new \clsTinyButStrong; // new instance of TBS
             $tbs->Plugin(TBS_INSTALL, OPENTBS_PLUGIN);
             $tbs->LoadTemplate($p_src_filename, \OPENTBS_ALREADY_UTF8);
-            $data = $p_merge_model->getDatasAsArray();
-            $tbs->MergeBlock($p_merge_model->getBlocksAsString(), $data);
+            $tbs->Plugin(OPENTBS_DEBUG_INFO, false);
+            foreach($p_merge_model->getBlocks() as $blockName) {
+                $tbs->MergeBlock($blockName, [$p_merge_model->getDatas($blockName)]);
+            }
+            foreach($p_merge_model->getGenericBlocks() as $blockName) {
+                $tbs->MergeBlock($blockName, [$p_merge_model->getGenericDatas($blockName)]);
+            }
             $tbs->Show(\OPENTBS_STRING);
             file_put_contents($p_dest_filename, $tbs->Source);
         } catch (\Exception $ex) {
