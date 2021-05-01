@@ -27,15 +27,25 @@ class Merge
             $tbs->LoadTemplate($p_src_filename, \OPENTBS_ALREADY_UTF8);
             $tbs->Plugin(OPENTBS_DEBUG_INFO, false);
             foreach($p_merge_model->getBlocks() as $blockName) {
-                $tbs->MergeBlock($blockName, [$p_merge_model->getDatas($blockName)]);
+                //var_dump($p_merge_model->getDatas($blockName));
+                if ($p_merge_model->isBlockAnArray($blockName)) {
+                    $tbs->MergeBlock($blockName, $p_merge_model->getDatas($blockName));
+                } else {
+                    $tbs->MergeBlock($blockName, [$p_merge_model->getDatas($blockName)]);
+                }
             }
             foreach($p_merge_model->getGenericBlocks() as $blockName) {
-                $tbs->MergeBlock($blockName, [$p_merge_model->getGenericDatas($blockName)]);
+                if ($p_merge_model->isBlockAnArray($blockName)) {
+                    $tbs->MergeBlock($blockName, $p_merge_model->getGenericDatas($blockName));
+                } else {
+                    $tbs->MergeBlock($blockName, [$p_merge_model->getGenericDatas($blockName)]);
+                }
             }
             $tbs->Show(\OPENTBS_STRING);
             file_put_contents($p_dest_filename, $tbs->Source);
         } catch (\Exception $ex) {
             $done = false;
+            ob_flush();
         }
         ob_end_clean();
         return $done;
