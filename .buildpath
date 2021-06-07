@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <buildpath>
+	<buildpathentry combineaccessrules="false" kind="prj" path="/freesso"/>
+	<buildpathentry combineaccessrules="false" kind="prj" path="/PhpSpreadsheet"/>
 	<buildpathentry combineaccessrules="false" kind="prj" path="/freefw"/>
 	<buildpathentry kind="src" path=""/>
 </buildpath>

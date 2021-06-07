@@ -3,6 +3,9 @@ namespace FreeOffice\Model;
 
 use \Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use \Box\Spout\Common\Entity\Row;
+use \Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
+use \Box\Spout\Common\Entity\Style\CellAlignment;
+use \Box\Spout\Common\Entity\Style\Color;
 
 /**
  *
@@ -56,15 +59,21 @@ class Sheet
     public function addLine(\FreeFW\Model\MergeModel $p_data)
     {
         if ($this->empty) {
+            $style = (new StyleBuilder())
+                ->setFontBold()
+                ->setFontSize(15)
+                ->setFontColor(Color::BLACK)
+                ->setShouldWrapText()
+                ->setCellAlignment(CellAlignment::CENTER)
+                ->build()
+            ;
             $this->writer = WriterEntityFactory::createODSWriter();
             $this->writer->openToFile($this->file_name);
-            foreach ($p_data->getBlocks() as $oneBlock) {
-                $datas = $p_data->getDatas($oneBlock);
-                foreach ($datas as $name => $content) {
-                    $this->cells[] = WriterEntityFactory::createCell($name);
-                }
+            foreach ($p_data->getTitles() as $title) {
+                $this->cells[] = WriterEntityFactory::createCell($title);
             }
             $singleRow = WriterEntityFactory::createRow($this->cells);
+            $singleRow->setStyle($style);
             $this->writer->addRow($singleRow);
         }
         $values = [];
