@@ -60,7 +60,7 @@ class SpreadSheet
     {
         $this->file_name = $p_file_name;
         $this->empty = true;
-        for ($i=1; $i<100; $i++) {
+        for ($i=1; $i<512; $i++) {
             $this->coordinates[$i] = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($i);
         }
     }
@@ -82,7 +82,7 @@ class SpreadSheet
             foreach ($p_data->getBlocks() as $oneBlock) {
                 $datas = $p_data->getDatas($oneBlock);
                 foreach ($datas as $name => $content) {
-                    $title = $p_data->getTitle($name);
+                    $title = $p_data->getTitle($name, $oneBlock);
                     if ($title && !is_array($content)) {
                         $this->sheet->setCellValue($this->coordinates[$col] . $this->current_line, $title);
                         if (! in_array($p_data->getType($name), [\FreeFW\Constants::TYPE_HTML])) {
@@ -111,23 +111,31 @@ class SpreadSheet
         foreach ($p_data->getBlocks() as $oneBlock) {
             $datas = $p_data->getDatas($oneBlock);
             foreach ($datas as $name => $content) {
-                $title = $p_data->getTitle($name);
-                $type  = $p_data->getType($name);
+                $title = $p_data->getTitle($name, $oneBlock);
+                $type  = $p_data->getType($name, $oneBlock);
                 if ($title && !is_array($content)) {
                     switch ($type) {
                         case \FreeFW\Constants::TYPE_IMAGE:
-                            $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
-                            $drawing->setName($name);
-                            $drawing->setPath($content);
-                            $drawing->setHeight(200);
-                            $drawing->setCoordinates($this->coordinates[$col] . $this->current_line);
-                            $drawing->setWorksheet($this->sheet);
+                            $tmpFile = '/tmp/' . uniqid(true) . '.png';
+                            if (!is_file($content)) {
+                                file_put_contents($tmpFile, $content);
+                            }
+                            if (is_file($tmpFile)) {
+                                $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+                                $drawing->setName($name);
+                                $drawing->setPath($tmpFile);
+                                $drawing->setHeight(200);
+                                $drawing->setCoordinates($this->coordinates[$col] . $this->current_line);
+                                $drawing->setWorksheet($this->sheet);
+                            }
                             break;
                         default:
                             $this->sheet->setCellValue($this->coordinates[$col] . $this->current_line, $content);
                             break;
                     }
                     $col++;
+                } else {
+                    //var_dump("--------", $name, $content, $title);
                 }
             }
         }
