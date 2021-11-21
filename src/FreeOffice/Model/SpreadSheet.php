@@ -151,7 +151,7 @@ class SpreadSheet
                 if ($size == 'auto') {
                     $this->sheet->getColumnDimension($col)->setAutoSize(true);
                 } else {
-                    $this->sheet->getColumnDimension($col)->setWidth(size);
+                    $this->sheet->getColumnDimension($col)->setWidth($size);
                 }
             }
             $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($this->spreadsheet);
