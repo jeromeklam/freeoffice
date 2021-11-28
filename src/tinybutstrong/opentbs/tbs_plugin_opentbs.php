@@ -665,7 +665,11 @@ class clsOpenTBS extends clsTbsZip {
 				$x2 = intval($x2); // 0 by default
 				$file = $this->MsWord_GetHeaderFooterFile($Cmd, $x1, $x2);
 				break;
-			case 'odt': case 'ods': case 'odp':
+			//case 'odt': case 'ods': case 'odp':
+			case 'odt':
+				$file = "styles.xml";
+				break;
+			case 'ods': case 'odp':
 				$file = $this->ExtInfo['main'];
 			case 'xlsx': case 'pptx': 
 				return false;

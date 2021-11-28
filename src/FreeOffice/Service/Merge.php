@@ -26,6 +26,7 @@ class Merge
             $tbs->Plugin(TBS_INSTALL, OPENTBS_PLUGIN);
             $tbs->LoadTemplate($p_src_filename, \OPENTBS_ALREADY_UTF8);
             $tbs->Plugin(OPENTBS_DEBUG_INFO, false);
+            $tbs->setOption('noerr', true);
             foreach($p_merge_model->getBlocks() as $blockName) {
                 //var_dump($p_merge_model->getDatas($blockName));
                 if ($p_merge_model->isBlockAnArray($blockName)) {
@@ -35,6 +36,43 @@ class Merge
                 }
             }
             foreach($p_merge_model->getGenericBlocks() as $blockName) {
+                //var_dump($blockName);
+                if ($p_merge_model->isBlockAnArray($blockName)) {
+                    $tbs->MergeBlock($blockName, $p_merge_model->getGenericDatas($blockName));
+                } else {
+                    $tbs->MergeBlock($blockName, [$p_merge_model->getGenericDatas($blockName)]);
+                }
+            }
+            // Header
+            $tbs->PlugIn(OPENTBS_SELECT_HEADER, OPENTBS_DEFAULT);
+            foreach($p_merge_model->getBlocks() as $blockName) {
+                //var_dump($p_merge_model->getDatas($blockName));
+                if ($p_merge_model->isBlockAnArray($blockName)) {
+                    $tbs->MergeBlock($blockName, $p_merge_model->getDatas($blockName));
+                } else {
+                    $tbs->MergeBlock($blockName, [$p_merge_model->getDatas($blockName)]);
+                }
+            }
+            foreach($p_merge_model->getGenericBlocks() as $blockName) {
+                //var_dump($blockName);
+                if ($p_merge_model->isBlockAnArray($blockName)) {
+                    $tbs->MergeBlock($blockName, $p_merge_model->getGenericDatas($blockName));
+                } else {
+                    $tbs->MergeBlock($blockName, [$p_merge_model->getGenericDatas($blockName)]);
+                }
+            }
+            // Footer
+            $tbs->PlugIn(OPENTBS_SELECT_FOOTER, OPENTBS_DEFAULT);
+            foreach($p_merge_model->getBlocks() as $blockName) {
+                //var_dump($p_merge_model->getDatas($blockName));
+                if ($p_merge_model->isBlockAnArray($blockName)) {
+                    $tbs->MergeBlock($blockName, $p_merge_model->getDatas($blockName));
+                } else {
+                    $tbs->MergeBlock($blockName, [$p_merge_model->getDatas($blockName)]);
+                }
+            }
+            foreach($p_merge_model->getGenericBlocks() as $blockName) {
+                //var_dump($blockName);
                 if ($p_merge_model->isBlockAnArray($blockName)) {
                     $tbs->MergeBlock($blockName, $p_merge_model->getGenericDatas($blockName));
                 } else {
