@@ -24,9 +24,9 @@ class Merge
         try {
             $tbs = new \clsTinyButStrong; // new instance of TBS
             $tbs->Plugin(TBS_INSTALL, OPENTBS_PLUGIN);
-            $tbs->LoadTemplate($p_src_filename, \OPENTBS_ALREADY_UTF8);
             $tbs->Plugin(OPENTBS_DEBUG_INFO, false);
-            $tbs->setOption('noerr', true);
+            $tbs->SetOption(['noerr' => true], true);
+            $tbs->LoadTemplate($p_src_filename, \OPENTBS_ALREADY_UTF8);
             foreach($p_merge_model->getBlocks() as $blockName) {
                 //var_dump($p_merge_model->getDatas($blockName));
                 if ($p_merge_model->isBlockAnArray($blockName)) {
