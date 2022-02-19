@@ -41,12 +41,13 @@ class PdfMerger
     /**
      * Merge
      * 
-     * @param string $p_outputmode
-     * @param string $p_outputname
+     * @param string  $p_outputmode
+     * @param string  $p_outputname
+     * @param boolean $p_peer
      * 
      * @return boolean
      */
-    public function merge($p_outputmode = 'browser', $p_outputpath = 'output.pdf')
+    public function merge($p_outputmode = 'browser', $p_outputpath = 'output.pdf', $p_peer = false)
     {
         if (!isset($this->_files) || !is_array($this->_files)) {
             throw new \Exception("No PDFs to merge.");
@@ -68,6 +69,9 @@ class PdfMerger
                         [$size['width'], $size['height']]
                     );
                     $fpdi->useTemplate($template);
+                }
+                if ($p_peer && $count % 2 == 1) {
+                    $fpdi->AddPage();
                 }
             } else {
                 foreach ($filepages as $page) {
